@@ -1,0 +1,11 @@
+{
+    "version": "1.0.0",
+     "pathmap": [
+         {
+             "match": "^/spec",
+             "webhandler": {
+                 "function": "openapiEndpoint"
+             }
+         }
+      ]
+  }

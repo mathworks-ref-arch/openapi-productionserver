@@ -1,0 +1,101 @@
+{
+    "discoverySchemaVersion": "1.0.0",
+    "archives": {
+        "myFun": {
+            "archiveSchemaVersion": "1.2.0",
+            "archiveUuid": "",
+            "functions": {
+                "myFun": {
+                    "signatures": [
+                        {
+                            "help": "MYFUN example MATLAB function for MATLAB Production Server using various\n input and output types.\n \n  The function has two inputs, the first is a struct with fields field1 and\n  field2 which are scalar doubles. The second input is a scalar double. The\n  output is a cell array with 2 cells. This demonstrates how various (more\n  complex) MATLAB types map to OpenAPI specs.\n  \n  Example usage in MATLAB:\n \n    in1.field1 = 1;\n    in1.field2 = 2;\n    in2 = 3;\n    out = myFun(in1,in2);\n",
+                            "inputs": [
+                                {
+                                    "help": "First input",
+                                    "mwsize": [
+                                        1,
+                                        1
+                                    ],
+                                    "mwtype": "struct",
+                                    "name": "in1",
+                                    "typedef": "in1Struct"
+                                },
+                                {
+                                    "help": "Second input",
+                                    "mwsize": [
+                                        1,
+                                        1
+                                    ],
+                                    "mwtype": "double",
+                                    "name": "in2"
+                                }
+                            ],
+                            "outputs": [
+                                {
+                                    "help": "The output",
+                                    "mwsize": [
+                                        1,
+                                        2
+                                    ],
+                                    "mwtype": "cell",
+                                    "name": "out",
+                                    "typedef": "outCell"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            "matlabRuntimeRelease": "R2024a",
+            "matlabRuntimeVersion": "24.1.0",
+            "typedefs": {
+                "in1Struct": {
+                    "fields": [
+                        {
+                            "help": "scalar double",
+                            "mwsize": [
+                                1,
+                                1
+                            ],
+                            "mwtype": "double",
+                            "name": "field1"
+                        },
+                        {
+                            "help": "scalar double",
+                            "mwsize": [
+                                1,
+                                1
+                            ],
+                            "mwtype": "double",
+                            "name": "field2"
+                        }
+                    ],
+                    "help": "in1 structure",
+                    "mwtype": "struct"
+                },
+                "outCell": {
+                    "elements": [
+                        {
+                            "help": "first scalar double",
+                            "mwsize": [
+                                1,
+                                1
+                            ],
+                            "mwtype": "double"
+                        },
+                        {
+                            "help": "second scalar double",
+                            "mwsize": [
+                                1,
+                                1
+                            ],
+                            "mwtype": "double"
+                        }
+                    ],
+                    "help": "output cell array",
+                    "mwtype": "cell"
+                }
+            }
+        }
+    }
+}

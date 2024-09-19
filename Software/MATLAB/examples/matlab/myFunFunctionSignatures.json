@@ -1,0 +1,53 @@
+// Function Signatures
+// To optionally specify argument types and/or sizes, search for "type"
+// and insert the appropriate specifiers inside the brackets. For example:
+//
+//    "type": ["double", "size=1,1"]
+//
+// To modify function or parameter help text, search for "purpose" and edit
+// the values.
+//
+// JSON-formatted text below this line.
+{
+    "_schemaVersion": "1.1.0",
+    "_typedefs": {
+        "in1Struct": {
+            "purpose": "in1 structure",
+            "type": "struct",
+            "fields": [
+                { "name": "field1", "type":["double", "size=1,1"],"purpose": "scalar double"},
+                { "name": "field2", "type":["double", "size=1,1"],"purpose": "scalar double"}
+            ]
+        },
+        "outCell": {
+            "purpose": "output cell array",
+            "type": "cell",
+            "elements": [
+                { "type":["double", "size=1,1"],"purpose": "first scalar double"},
+                { "type":["double", "size=1,1"],"purpose": "second scalar double"}                
+            ]
+        }
+    },
+    "myFun": {
+        "inputs": [
+            {
+                "name": "in1",
+                "type": ["struct:in1Struct","size=1,1"],
+                "purpose": "First input"
+            },
+            {
+                "name": "in2",
+                "type": ["double", "size=1,1"],
+                "purpose": "Second input"
+            }
+        ],
+        "outputs": [
+            {
+                "name": "out",
+                "type": ["cell:outCell","size=1,2"],
+                "purpose": "The output"
+            }
+        ],
+        "purpose": "MYFUN example MATLAB function for MATLAB Production Server using various\n input and output types.\n \n  The function has two inputs, the first is a struct with fields field1 and\n  field2 which are scalar doubles. The second input is a scalar double. The\n  output is a cell array with 2 cells. This demonstrates how various (more\n  complex) MATLAB types map to OpenAPI specs.\n  \n  Example usage in MATLAB:\n \n    in1.field1 = 1;\n    in1.field2 = 2;\n    in2 = 3;\n    out = myFun(in1,in2);\n"
+    }
+}
