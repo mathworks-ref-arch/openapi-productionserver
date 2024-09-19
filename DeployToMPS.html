@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Deploy as endpoint to MATLAB Production Server &mdash; OpenAPI Interface for MATLAB Production Server  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+      <link rel="stylesheet" type="text/css" href="_static/css/mathworks.css?v=45389b66" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="_static/copybutton.js?v=35a8b989"></script>
+        <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="OpenAPI representations of MATLAB Production Server Types and Methods" href="MPSOpenAPI.html" />
+    <link rel="prev" title="Usage" href="Usage.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            OpenAPI Interface for MATLAB Production Server
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="Installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Usage.html">Usage</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Deploy as endpoint to MATLAB Production Server</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#querying-the-discovery-endpoint">Querying the discovery endpoint</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#summary">Summary</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#customizing-other-aspects-of-the-wrapper">Customizing other aspects of the wrapper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#url-routes">URL Routes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#compile">Compile</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#deploy">Deploy</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">References</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="MPSOpenAPI.html">OpenAPI representations of MATLAB Production Server Types and Methods</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Customization.html">Customization/Extending</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">OpenAPI Interface for MATLAB Production Server</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Deploy as endpoint to MATLAB Production Server</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/DeployToMPS.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="deploy-as-endpoint-to-matlab-production-server">
+<h1>Deploy as endpoint to MATLAB Production Server<a class="headerlink" href="#deploy-as-endpoint-to-matlab-production-server" title="Link to this heading"></a></h1>
+<p>It is possible to add a live endpoint to MATLAB Production Server which can return the OpenAPI spec for the functionality deployed to the instance. It is for example possible to wrap the OpenAPI spec generator in a <a class="reference external" href="https://www.mathworks.com/help/releases/R2024a/mps/server/use-web-handler-for-custom-routes-and-custom-payloads.html">Custom Routes and Payloads function</a> which first queries the server’s discovery endpoint, then uses the generator to translate this to an OpenAPI spec and then returns the OpenAPI YAML document.</p>
+<p>An <em>example</em> wrapper is included in the package:</p>
+<div class="literal-block-wrapper docutils container" id="id1">
+<div class="code-block-caption"><span class="caption-text">Software/MATLAB/examples/mps/openapiEndpoint.m</span><a class="headerlink" href="#id1" title="Link to this code"></a></div>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>res<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">openapiEndpoint</span><span class="p">(</span>req<span class="p">)</span>
+<span class="c">%OPENAPIENDPOINT MATLAB Production Server wrapper for prodserver.openapi </span>
+<span class="c">%</span>
+<span class="c">% This wrapper facilitates adding a live endpoint to MATLAB Production</span>
+<span class="c">% Server which returns an OpenAPI spec for the functionality served on the</span>
+<span class="c">% server. This is accomplished by first querying the server&#39;s discovery</span>
+<span class="c">% endpoint, translating the proprietary discovery format to OpenAPI format</span>
+<span class="c">% and then returning the OpenAPI YAML document.</span>
+<span class="c">%</span>
+<span class="c">% IMPORTANT: the code in this example may need to be customized, especially</span>
+<span class="c">% the part which queries the live MATLAB Production Server discovery</span>
+<span class="c">% endpoint. There is no dedicated internal endpoint for this and therefore</span>
+<span class="c">% this wrapper will need to query the generic (external) endpoint. How this</span>
+<span class="c">% can or should be done will depend on the specific MATLAB Production</span>
+<span class="c">% Server deployment. It for example matters whether the server is</span>
+<span class="c">% accessible over HTTP or over HTTPS only and for HTTPS it may be relevant</span>
+<span class="c">% which certificate is used.</span>
+<span class="c">%</span>
+<span class="c">% Other parts of the implementation can be changed as well, it is for</span>
+<span class="c">% example possible to choose whether or not to include the asynchronous</span>
+<span class="c">% interface (by default) or to include authentication information, etc.</span>
+<span class="c">%</span>
+<span class="c">% Further, the implementation uses Custom Routes and Payloads in order to</span>
+<span class="c">% be able to directly return the YAML document and not output the data in</span>
+<span class="c">% MATLAB Production Server JSON format.</span>
+
+<span class="c">% Copyright 2023-2024 The MathWorks, Inc.</span>
+
+<span class="c">%% Parse the request</span>
+<span class="c">% In this example we allow the endpoint to be queried with a query</span>
+<span class="c">% parameter &#39;async&#39; which can be set to true or false (default = false),</span>
+<span class="c">% i.e. you can query http://localhost:9910/api/openapi?async=true</span>
+<span class="c">% In that case we include the asynchronous interface in the OpenAPI</span>
+<span class="c">% spec. This can be customized, e.g. the default can be changed, the option</span>
+<span class="c">% can be removed entirely, or you can add additional other options in a</span>
+<span class="c">% similar way to allow configuring other aspects of the OpenAPI spec</span>
+<span class="c">% generation.</span>
+
+<span class="c">% Parse the Path of the request into a MATLAB URI </span>
+<span class="n">uri</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">matlab.net.URI</span><span class="p">(</span><span class="n">req</span><span class="p">.</span><span class="n">Path</span><span class="p">);</span>
+<span class="c">% Which then allows easy access to query parameters</span>
+<span class="n">q</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">uri</span><span class="p">.</span><span class="n">Query</span><span class="p">;</span>
+<span class="c">% If there is a parameter &#39;async&#39; and it is set to true, enable including</span>
+<span class="c">% the async interface in the spec</span>
+<span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="nb">isempty</span><span class="p">(</span><span class="n">q</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">any</span><span class="p">([</span><span class="n">q</span><span class="p">.</span><span class="n">Name</span><span class="p">]</span><span class="o">==</span><span class="s">&quot;async&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">q</span><span class="p">([</span><span class="n">q</span><span class="p">.</span><span class="n">Name</span><span class="p">]</span><span class="o">==</span><span class="s">&quot;async&quot;</span><span class="p">).</span><span class="n">Value</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;true&quot;</span>
+<span class="w">    </span><span class="n">async</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+<span class="k">else</span><span class="w"> </span><span class="c">% if not set, default to false</span>
+<span class="w">    </span><span class="n">async</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+<span class="k">end</span>
+
+<span class="c">%% Query the discovery endpoint</span>
+<span class="c">% In most cases, just use default weboptions, but this can be customized</span>
+<span class="c">% for example to allow working with a self-signed certificate if working</span>
+<span class="c">% over https.</span>
+<span class="n">opts</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">weboptions</span><span class="p">();</span>
+<span class="c">% Query the discovery endpoint with the specified options. This may have to</span>
+<span class="c">% be updated to work over https and/or the server name may have to be</span>
+<span class="c">% changed.</span>
+<span class="n">discovery</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">webread</span><span class="p">(</span><span class="s">&#39;http://localhost:9910/api/discovery&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">opts</span><span class="p">);</span>
+
+<span class="c">%% Translate discovery document to OpenAPI spec</span>
+<span class="c">% In this example the Async setting is configurable through a query</span>
+<span class="c">% parameter, pass along the chosen value to the generator. This can be</span>
+<span class="c">% changed/customized, the settings can always be turned on or off or other</span>
+<span class="c">% options can be set, either hardcoded or also configurable through a query</span>
+<span class="c">% parameter.</span>
+<span class="n">openapiGenerator</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">prodserver</span><span class="p">.</span><span class="n">openapi</span><span class="p">(</span><span class="n">Async</span><span class="p">=</span><span class="n">async</span><span class="p">);</span>
+<span class="n">spec</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">openapiGenerator</span><span class="p">.</span><span class="n">generate</span><span class="p">(</span><span class="n">discovery</span><span class="p">);</span>
+
+<span class="c">%% Return the OpenAPI spec</span>
+<span class="c">% This should not require any customization; this simply returns the</span>
+<span class="c">% generated spec in the correct encoding, with the right HTTP headers set.</span>
+<span class="n">res</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">struct</span><span class="p">(</span><span class="w"> </span><span class="k">...</span>
+<span class="w">    </span><span class="s">&#39;HttpCode&#39;</span><span class="p">,</span><span class="mi">200</span><span class="p">,</span><span class="w"> </span><span class="k">...</span>
+<span class="w">    </span><span class="s">&#39;HttpMessage&#39;</span><span class="p">,</span><span class="nb">matlab.net.http.StatusCode</span><span class="p">(</span><span class="mi">200</span><span class="p">).</span><span class="n">getReasonPhrase</span><span class="p">,</span><span class="w"> </span><span class="k">...</span>
+<span class="w">    </span><span class="s">&#39;Headers&#39;</span><span class="p">,{{</span><span class="s">&#39;Content-Type&#39;</span><span class="p">,</span><span class="s">&#39;application/openapi+yaml&#39;</span><span class="p">}},</span><span class="w"> </span><span class="k">...</span>
+<span class="w">    </span><span class="s">&#39;Body&#39;</span><span class="p">,</span><span class="nb">unicode2native</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span><span class="s">&#39;UTF-8&#39;</span><span class="p">));</span>
+</pre></div>
+</div>
+</div>
+<p>This is “just an example” as it is meant to be customized. For example it is possible to configure whether or not to include the asynchronous interface, or to add authentication information, etc. Most importantly however, the code which queries the discovery endpoint may have to be customized; see the next section.</p>
+<section id="querying-the-discovery-endpoint">
+<h2>Querying the discovery endpoint<a class="headerlink" href="#querying-the-discovery-endpoint" title="Link to this heading"></a></h2>
+<p>There is no dedicated internal or loopback endpoint or function inside MATLAB Production Server which allows retrieving the discovery document directly from MATLAB code running on the instance. And so, the wrapper MATLAB code will have to query the “external” <code class="docutils literal notranslate"><span class="pre">/api/discovery</span></code> endpoint in the same way as any other MATLAB Production Server client would.</p>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>The discovery endpoint needs to be enabled for it to be available, see <a class="reference external" href="https://www.mathworks.com/help/mps/server/mps.configuration-properties.html#propname_enable-discovery"><code class="docutils literal notranslate"><span class="pre">--enable-discovery</span></code></a>.</p>
+</div>
+<p>From the MATLAB wrapper point of view, the easiest option is to query the discovery endpoint over <code class="docutils literal notranslate"><span class="pre">http</span></code> (and not <code class="docutils literal notranslate"><span class="pre">https</span></code>), and ideally the server can simply refer to itself by <code class="docutils literal notranslate"><span class="pre">localhost</span></code> (or <code class="docutils literal notranslate"><span class="pre">127.0.0.1</span></code>). In that case the code does not have to be customized <em>per MATLAB Production Server instance</em> and the same CTF-archive can be used across different MATLAB Production Server instances.</p>
+<ul>
+<li><p>If <code class="docutils literal notranslate"><span class="pre">http</span></code> is <strong>enabled</strong> on the instance anyway, this should indeed simply work.</p></li>
+<li><p>If <code class="docutils literal notranslate"><span class="pre">http</span></code> has been <strong>disabled</strong> on the instance and it is configured to listen on <code class="docutils literal notranslate"><span class="pre">https</span></code> <em>only</em>:</p>
+<ul>
+<li><p>It may be worth considering simply enabling <code class="docutils literal notranslate"><span class="pre">http</span></code> again. Note that it is possible to configure the instance to only listen on a specific network interface (see the <a class="reference external" href="https://www.mathworks.com/help/mps/server/mps.configuration-properties.html#buf0ewd">–http <strong>host</strong>:port</a> option), i.e. it is possible to enable <code class="docutils literal notranslate"><span class="pre">http</span></code> for <code class="docutils literal notranslate"><span class="pre">localhost</span></code> or <code class="docutils literal notranslate"><span class="pre">127.0.0.1</span></code> <em>only</em> such that only <em>local</em> applications on the same machine can access the instance over <code class="docutils literal notranslate"><span class="pre">http</span></code> but all <em>external</em> traffic still has to go over <code class="docutils literal notranslate"><span class="pre">https</span></code>. And/or it is possible to configure the <code class="docutils literal notranslate"><span class="pre">http</span></code> endpoint to listen on a port which is explicitly blocked for all external traffic. Some firewalls may even be able to limit the internal traffic and only allow specific processes to access the port or only allow local communication between processes <em>running under the same user account</em>.</p></li>
+<li><p>It is also possible to query the <code class="docutils literal notranslate"><span class="pre">/discovery/api</span></code> endpoint over <code class="docutils literal notranslate"><span class="pre">https</span></code> but:</p>
+<ul>
+<li><p>It is unlikely then that the instance can be referenced by <code class="docutils literal notranslate"><span class="pre">localhost</span></code> as the https certificate is unlikely to be valid for hostname <code class="docutils literal notranslate"><span class="pre">localhost</span></code>. Ensure to update the code to refer to the correct hostname.</p></li>
+<li><p>If the https certificate is self-signed (or at least not signed by an certificate authority which MATLAB trusts <em>by default</em>) the request will have to be configured to accept the server certificate explicitly.</p>
+<ol class="arabic">
+<li><p>Download the certificate in PEM-format and for example save it as <code class="docutils literal notranslate"><span class="pre">YourServerCertificate.pem</span></code>.</p></li>
+<li><p>Update the MATLAB code to accept this certificate when querying the endpoint:</p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">opts</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">weboptions</span><span class="p">(</span><span class="s">&#39;CertificateFilename&#39;</span><span class="p">,</span><span class="s">&#39;YourServerCertificate.pem&#39;</span><span class="p">);</span>
+<span class="n">discovery</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">webread</span><span class="p">(</span><span class="s">&#39;https://example.com/api/discovery&#39;</span><span class="p">,</span><span class="n">opts</span><span class="p">);</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Technically it is also possible to disable certificate trust validation altogether by setting <code class="docutils literal notranslate"><span class="pre">CertificateFilename</span></code> to an empty string <code class="docutils literal notranslate"><span class="pre">''</span></code>.  And it is even possible to disable host name verification when switching to working with the <a class="reference external" href="https://www.mathworks.com/help/matlab/http-interface.html">HTTP interface in MATLAB</a>:</p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="c">% DANGER: Disable both hostname as well as certificate trust validation</span>
+<span class="n">opts</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">matlab.net.http.HTTPOptions</span><span class="p">(</span><span class="s">&#39;CertificateFilename&#39;</span><span class="p">,</span><span class="s">&#39;&#39;</span><span class="p">,</span><span class="s">&#39;VerifyServerName&#39;</span><span class="p">,</span><span class="nb">false</span><span class="p">);</span>
+<span class="c">% Start a new request</span>
+<span class="n">req</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">matlab.net.http.RequestMessage</span><span class="p">();</span>
+<span class="c">% Perform the request with the specified options</span>
+<span class="n">result</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">req</span><span class="p">.</span><span class="n">send</span><span class="p">(</span><span class="s">&#39;https://localhost:9920/api/discovery&#39;</span><span class="p">,</span><span class="n">opts</span><span class="p">);</span>
+<span class="c">% Obtain the response body data</span>
+<span class="n">discovery</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">result</span><span class="p">.</span><span class="n">Body</span><span class="p">.</span><span class="n">Data</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>These options are not recommended however and should only be considered for temporary testing.</p>
+</div>
+</li>
+</ul>
+</li>
+</ul>
+<section id="summary">
+<h3>Summary<a class="headerlink" href="#summary" title="Link to this heading"></a></h3>
+<p>The following points can be taken into consideration when choosing how to access the discovery endpoint. It is important however that in the end <em>you</em> make <em>your own</em> security assessment and <em>you</em> choose the option(s) which meet(s) <em>your</em> requirements.</p>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">http</span></code> is easier from the MATLAB wrapper point of view, there are no certificates in play and the instance should be able to simply refer to itself as <code class="docutils literal notranslate"><span class="pre">localhost</span></code>. Also this requires just a single CTF-archive which can be used across different MATLAB Production Server instances.</p></li>
+<li><p>In general <code class="docutils literal notranslate"><span class="pre">https</span></code> communication is more secure but involves certificates which will likely require customization of the wrapper. The customization will likely differ <em>per MATLAB Production Server instance</em>. Each instance may require a custom CTF-archive specifically build for that specific instance.</p></li>
+<li><p>Some security concerns related to using <code class="docutils literal notranslate"><span class="pre">http</span></code> may be mitigated by simply binding the http listener to <code class="docutils literal notranslate"><span class="pre">localhost</span></code> only. This is done through a simple configuration option on the MATLAB Production Server instance.</p></li>
+<li><p>Concerns with <code class="docutils literal notranslate"><span class="pre">http</span></code> which are not addressed by 3. may require further (more complex) firewall configurations. In that case, due to this added complexity, the advantages of 1. may no longer outweigh the disadvantages of 2. and it might be easier to stick/switch to working over <code class="docutils literal notranslate"><span class="pre">https</span></code> only.</p></li>
+</ol>
+</section>
+</section>
+<section id="customizing-other-aspects-of-the-wrapper">
+<h2>Customizing other aspects of the wrapper<a class="headerlink" href="#customizing-other-aspects-of-the-wrapper" title="Link to this heading"></a></h2>
+<p>As shown in the example, other aspects of the wrapper can be customized as well. It is possible to configure the various <a class="reference internal" href="Usage.html#prodserver-openapi"><span class="std std-ref">options for the OpenAPI spec generator</span></a>. It is possible to customize the “interface” of the endpoint, e.g. add additional query parameters to allow configuring the behavior. See <a class="reference external" href="https://www.mathworks.com/help/mps/server/use-web-handler-for-custom-routes-and-custom-payloads.html">Write MATLAB Functions for Web Request Handler</a> in the MATLAB Production Server documentation to learn more about implementing these kinds of functions.</p>
+</section>
+<section id="url-routes">
+<h2>URL Routes<a class="headerlink" href="#url-routes" title="Link to this heading"></a></h2>
+<p>A custom route must be configured to make the endpoint work correctly. As <a class="reference external" href="https://www.mathworks.com/help/mps/server/use-web-handler-for-custom-routes-and-custom-payloads.html#mw_1c57566a-9876-44ca-9f07-f67709bfb3f1">documented</a>, routes can be configured on an instance level or archive level (in releases R2023b and newer). The easiest option is to make use of archive level routes as this requires no further configuration and restart of the MATLAB Production Server instance(s). An example archive level routes file is included as <code class="docutils literal notranslate"><span class="pre">routes.json</span></code>:</p>
+<div class="literal-block-wrapper docutils container" id="id2">
+<div class="code-block-caption"><span class="caption-text">Software/MATLAB/examples/mps/routes.json</span><a class="headerlink" href="#id2" title="Link to this code"></a></div>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">    </span><span class="s">&quot;version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;1.0.0&quot;</span><span class="p">,</span>
+<span class="w">     </span><span class="s">&quot;pathmap&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">         </span><span class="p">{</span>
+<span class="w">             </span><span class="s">&quot;match&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;^/spec&quot;</span><span class="p">,</span>
+<span class="w">             </span><span class="s">&quot;webhandler&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                 </span><span class="s">&quot;function&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;openapiEndpoint&quot;</span>
+<span class="w">             </span><span class="p">}</span>
+<span class="w">         </span><span class="p">}</span>
+<span class="w">      </span><span class="p">]</span>
+<span class="w">  </span><span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<p>If an instance level configuration is desired/required, update the routes configuration file (typically <code class="docutils literal notranslate"><span class="pre">config/routes.json</span></code>) on the instance(s).</p>
+</section>
+<section id="compile">
+<h2>Compile<a class="headerlink" href="#compile" title="Link to this heading"></a></h2>
+<p>To build the CTF-archive with archive level routes, use:</p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">compiler</span><span class="p">.</span><span class="n">build</span><span class="p">.</span><span class="n">productionServerArchive</span><span class="p">(</span><span class="k">...</span>
+<span class="w">    </span><span class="s">&#39;openapiEndpoint.m&#39;</span><span class="p">,</span><span class="k">...</span>
+<span class="w">    </span><span class="n">ArchiveName</span><span class="p">=</span><span class="s">&#39;openapi&#39;</span><span class="p">,</span><span class="k">...</span>
+<span class="w">    </span><span class="n">RoutesFile</span><span class="p">=</span><span class="s">&#39;routes.json&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Note that with archive level routes, the endpoint will become <code class="docutils literal notranslate"><span class="pre">http(s)://example.com/</span></code><em><code class="docutils literal notranslate"><span class="pre">ArchiveName</span></code></em><code class="docutils literal notranslate"><span class="pre">/</span></code><em><code class="docutils literal notranslate"><span class="pre">RouteAsDefinedInRoutesFile</span></code></em>.</p>
+<p>Choose <code class="docutils literal notranslate"><span class="pre">ArchiveName</span></code> and configure the routes file appropriately to make the functionality available at the desired endpoint. E.g. with the routes file as included in the example and the archive name used above, the final endpoint becomes <code class="docutils literal notranslate"><span class="pre">http://example.com/openapi/spec</span></code>.</p>
+</section>
+<section id="deploy">
+<h2>Deploy<a class="headerlink" href="#deploy" title="Link to this heading"></a></h2>
+<p>As with any other component, copy the resulting CTF-archive to the <code class="docutils literal notranslate"><span class="pre">auto_deploy</span></code> folder of the MATLAB Production Server instance(s). If working with instance level routes, restart the MATLAB Production Server instance after having updated the routes configuration file.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="Usage.html" class="btn btn-neutral float-left" title="Usage" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="MPSOpenAPI.html" class="btn btn-neutral float-right" title="OpenAPI representations of MATLAB Production Server Types and Methods" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023 - 2024, MathWorks, Inc..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

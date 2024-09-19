@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Usage &mdash; OpenAPI Interface for MATLAB Production Server  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+      <link rel="stylesheet" type="text/css" href="_static/css/mathworks.css?v=45389b66" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="_static/copybutton.js?v=35a8b989"></script>
+        <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Deploy as endpoint to MATLAB Production Server" href="DeployToMPS.html" />
+    <link rel="prev" title="Installation" href="Installation.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            OpenAPI Interface for MATLAB Production Server
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="Installation.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Usage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#prodserver-openapi">prodserver.openapi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#examples">Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#important-notes">Important Notes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#further-usage">Further usage</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#deployed-as-endpoint-on-matlab-production-server">Deployed as endpoint on MATLAB Production Server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#as-matlab-compiler-standalone-application">As MATLAB Compiler standalone application</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#in-ci-cd-pipelines">In CI/CD pipelines</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="DeployToMPS.html">Deploy as endpoint to MATLAB Production Server</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">References</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="MPSOpenAPI.html">OpenAPI representations of MATLAB Production Server Types and Methods</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Customization.html">Customization/Extending</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">OpenAPI Interface for MATLAB Production Server</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Usage</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/Usage.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="usage">
+<h1>Usage<a class="headerlink" href="#usage" title="Link to this heading"></a></h1>
+<p>The package main functionality is implemented as a MATLAB class <code class="docutils literal notranslate"><span class="pre">prodserver.openapi</span></code> with various configuration options and a <code class="docutils literal notranslate"><span class="pre">generate</span></code> method which generates a YAML OpenAPI specification based on a MATLAB Production Server Discovery document (imported as MATLAB structure); the document is returned as string.</p>
+<p>It is possible to build your own higher level functionality, which for example first downloads and parses the discovery document into a struct and which writes the resulting document to file, on top of this.</p>
+<p>An example wrapper function is included in the package which can help deploying the functionality as an endpoint to MATLAB Production Server itself, also see <a class="reference internal" href="DeployToMPS.html"><span class="std std-doc">Deploy as endpoint to MATLAB Production Server</span></a>.</p>
+<section id="prodserver-openapi">
+<h2>prodserver.openapi<a class="headerlink" href="#prodserver-openapi" title="Link to this heading"></a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">prodserver.openapi</span></code> class has various properties with which the behavior of the generator can be configured.</p>
+<dl class="myst field-list simple">
+<dt class="field-odd">OpenAPIVersion<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Generate an OpenAPI Specification compatible with the specified OpenAPI version.<br />
+<em>Type: <code class="docutils literal notranslate"><span class="pre">string</span></code></em><br />
+<em>Default: <code class="docutils literal notranslate"><span class="pre">&quot;3.0.3&quot;</span></code></em><br />
+<em>Valid options: <code class="docutils literal notranslate"><span class="pre">&quot;3.0.3&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;3.1.0&quot;</span></code></em></p>
+</dd>
+<dt class="field-even">Version<span class="colon">:</span></dt>
+<dd class="field-even"><p>Sets the version of the OpenAPI document (which is distinct from the the OpenAPI Specification Version as set by <code class="docutils literal notranslate"><span class="pre">OpenAPIVersion</span></code>). It for example makes sense to change this version number if CTFs are added or removed from the server or if functions are added or removed from a package or if the in- or outputs of a function change, i.e. anything which changes the “interface” of the RESTful API which consumers can call. This allows consumers of the APIs to clearly recognize when the interfaces have changed and they can for example more easily recognize that they might be working with a outdated copy of the specification (and they need to obtain a new version). Since the package cannot automatically track what may- or may not have changed over time on the MATLAB Production Server instance, the version number which is included in the generated document must be manually configured through this property.<br />
+<em>Type: <code class="docutils literal notranslate"><span class="pre">string</span></code></em><br />
+<em>Default: <code class="docutils literal notranslate"><span class="pre">&quot;1.0.0&quot;</span></code></em></p>
+</dd>
+<dt class="field-odd">Server<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Specifies the server addresses to be included in the specification. This is a hint to the consumers of the specification to indicate which server(s) they can work with when consuming your API. Consumers can choose to ignore this and can typically connect to other instances (serving the same functionality) as well.<br />
+<em>Type: <code class="docutils literal notranslate"><span class="pre">string</span></code> scalar or array</em><br />
+<em>Default: <code class="docutils literal notranslate"><span class="pre">&quot;http://localhost:9910/&quot;</span></code></em></p>
+</dd>
+<dt class="field-even">HeterogeneousArraySpecifier<span class="colon">:</span></dt>
+<dd class="field-even"><p>Specifies how items are defined for heterogenous arrays in 3.0.3 format. This can be done using an <code class="docutils literal notranslate"><span class="pre">anyOf</span></code> or <code class="docutils literal notranslate"><span class="pre">oneOf</span></code> schema. The official OpenAPI 3.0.3 is unclear about which option should be used (also see <a class="reference internal" href="MPSOpenAPI.html#heterogenous-array-item-definition"><span class="std std-ref">Heterogenous array item definition</span></a>) therefore this can be user configured.<br />
+<em>Type: <code class="docutils literal notranslate"><span class="pre">string</span></code></em><br />
+<em>Default: <code class="docutils literal notranslate"><span class="pre">&quot;anyOf&quot;</span></code></em><br />
+<em>Valid options: <code class="docutils literal notranslate"><span class="pre">&quot;anyOf&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;oneOf&quot;</span></code></em></p>
+</dd>
+<dt class="field-odd">Async<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Specifies whether or not to include the <a class="reference external" href="https://www.mathworks.com/help/mps/restfuljson/restful-api.html#bvnvw_3">asynchronous interface</a> in the generated spec. Note that since the output of the <a class="reference external" href="https://www.mathworks.com/help/mps/restfuljson/getresultofrequest.html">result</a> endpoint depends on which function the result is being retrieved for, its response cannot be accurately described in the generated spec and is therefore simply defined as to return “an object” with no further details. For documentation purposes it <em>does</em> refer back to the outputs of the synchronous versions of the function calls.<br />
+<em>Type: <code class="docutils literal notranslate"><span class="pre">logical</span></code></em><br />
+<em>Default: <code class="docutils literal notranslate"><span class="pre">false</span></code></em></p>
+</dd>
+<dt class="field-even">OAuth<span class="colon">:</span></dt>
+<dd class="field-even"><p>Includes authentication information in the spec. For example, enable this if the server is configured with <a class="reference external" href="https://www.mathworks.com/help/mps/server/access_control.html">OAuth based Application Access Control</a>. When enabling this options, also configure <code class="docutils literal notranslate"><span class="pre">AuthorizationUrl</span></code> and <code class="docutils literal notranslate"><span class="pre">TokenUrl</span></code>.<br />
+<em>Type: <code class="docutils literal notranslate"><span class="pre">logical</span></code></em><br />
+<em>Default: <code class="docutils literal notranslate"><span class="pre">false</span></code></em></p>
+</dd>
+<dt class="field-odd">AuthorizationUrl<span class="colon">:</span></dt>
+<dd class="field-odd"><p>When <code class="docutils literal notranslate"><span class="pre">OAuth</span></code> == <code class="docutils literal notranslate"><span class="pre">true</span></code> specifies the Authorization URL to include with the authentication information in the spec.<br />
+<em>Type: <code class="docutils literal notranslate"><span class="pre">string</span></code></em><br />
+<em>Default: <code class="docutils literal notranslate"><span class="pre">&quot;https://www.example.com/auth&quot;</span></code></em></p>
+</dd>
+<dt class="field-even">TokenUrl<span class="colon">:</span></dt>
+<dd class="field-even"><p>When <code class="docutils literal notranslate"><span class="pre">OAuth</span></code> == <code class="docutils literal notranslate"><span class="pre">true</span></code> specifies the Token URL to include with the authentication information in the spec.<br />
+<em>Type: <code class="docutils literal notranslate"><span class="pre">string</span></code></em><br />
+<em>Default: <code class="docutils literal notranslate"><span class="pre">&quot;https://www.example.com/token&quot;</span></code></em></p>
+</dd>
+</dl>
+<p>Properties can be set after instantiating the object instance:</p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">openapiGenerator</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">prodserver</span><span class="p">.</span><span class="n">openapi</span><span class="p">();</span>
+<span class="n">openapiGenerator</span><span class="p">.</span><span class="n">Version</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;3.14.0&quot;</span><span class="p">;</span>
+<span class="n">openapiGenerator</span><span class="p">.</span><span class="n">Async</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>Or alternatively it is also possible to pass the properties and their desired values as name-value pairs to the constructor, for example:</p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">openapiGenerator</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">prodserver</span><span class="p">.</span><span class="n">openapi</span><span class="p">(</span><span class="s">&#39;Version&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;3.14.0&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;Async&#39;</span><span class="p">,</span><span class="w"> </span><span class="nb">true</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>or:</p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">openapiGenerator</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">prodserver</span><span class="p">.</span><span class="n">openapi</span><span class="p">(</span><span class="n">Version</span><span class="p">=</span><span class="s">&quot;3.14.0&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">Async</span><span class="p">=</span><span class="nb">true</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Link to this heading"></a></h2>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="c">%% Create the generator instance</span>
+<span class="n">openapiGenerator</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">prodserver</span><span class="p">.</span><span class="n">openapi</span><span class="p">();</span>
+
+<span class="c">%% Configure the generator instance</span>
+<span class="c">% For example, specify the version of the API</span>
+<span class="n">openapiGenerator</span><span class="p">.</span><span class="n">Version</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;3.14.0&quot;</span><span class="p">;</span>
+<span class="c">% For example, specify that the asynchronous interface should be included in the spec</span>
+<span class="n">openapiGenerator</span><span class="p">.</span><span class="n">Async</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+
+<span class="c">%% Use the generate method on a MATLAB Production Server Discovery document imported as MATLAB structure</span>
+<span class="c">% For example, query the live discovery endpoint of a MATLAB Production Server Instance</span>
+<span class="n">discovery</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">webread</span><span class="p">(</span><span class="s">&quot;http://localhost:9910/api/discovery&quot;</span><span class="p">);</span>
+<span class="c">% Or alternatively, it is also possible to read a previously downloaded document</span>
+<span class="c">% discovery = jsondecode(fileread(&quot;discovery.json&quot;));</span>
+
+<span class="c">% Call the generate method on the structure</span>
+<span class="n">openApiSpec</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">openapiGenerator</span><span class="p">.</span><span class="n">generate</span><span class="p">(</span><span class="n">discovery</span><span class="p">);</span>
+
+<span class="c">% This returned a string representation of the OpenAPI spec in YAML format.</span>
+<span class="c">% For example, display it</span>
+<span class="nb">disp</span><span class="p">(</span><span class="n">openApiSpec</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="important-notes">
+<h2>Important Notes<a class="headerlink" href="#important-notes" title="Link to this heading"></a></h2>
+<p>As noted in the main package description, the package <em>translates</em> the proprietary JSON format of <a class="reference external" href="https://www.mathworks.com/help/mps/restfuljson/restful-api-for-discovery-and-diagnostics.html#mw_d710d743-384a-434f-b4ab-2b5941e56ca8">MATLAB Production Server’s Discovery Service</a> into OpenAPI specifications. It is therefore important to note that it will only be able to generate OpenAPI specs for functionality for which discovery information <em>is</em> in fact available. It is up to archive authors to ensure this information is included in the archive and the included information is correct. If a function is not included in the discovery document it will not show up in the generated OpenAPI spec. If an archive does not contain discovery information at all, the entire archive will not show up in the generated OpenAPI spec either.</p>
+<p>Similarly, the accuracy of the generated OpenAPI spec will depend on the accuracy of the discovery information. For example, if the size of a variable is not specified in the discovery document, the generated OpenAPI spec will also lack this piece of information.</p>
+<p>Also, if there are mistakes in the discovery information, the generated OpenAPI spec will likely be inaccurate as well. The package does not dynamically verify the validity of the discovery document before translation, nor does it verify the correctness of the generated OpenAPI spec after generation. I.e. it does <em>not</em> try to invoke the function based on the original or generated spec to verify its correctness against the deployed functionality.</p>
+</section>
+<section id="further-usage">
+<h2>Further usage<a class="headerlink" href="#further-usage" title="Link to this heading"></a></h2>
+<section id="deployed-as-endpoint-on-matlab-production-server">
+<h3>Deployed as endpoint on MATLAB Production Server<a class="headerlink" href="#deployed-as-endpoint-on-matlab-production-server" title="Link to this heading"></a></h3>
+<p>To learn more about how to deploy the OpenAPI generator as an endpoint on MATLAB Production Server itself, see <a class="reference internal" href="DeployToMPS.html"><span class="std std-doc">Deploy as endpoint to MATLAB Production Server</span></a>.</p>
+</section>
+<section id="as-matlab-compiler-standalone-application">
+<h3>As MATLAB Compiler standalone application<a class="headerlink" href="#as-matlab-compiler-standalone-application" title="Link to this heading"></a></h3>
+<p>To be able to use the tooling outside of MATLAB without needing a MATLAB license, it is possible to first write a wrapper function, for example:</p>
+<div class="literal-block-wrapper docutils container" id="id1">
+<div class="code-block-caption"><span class="caption-text">Software/MATLAB/examples/standalone/productionServerOpenAPI.m</span><a class="headerlink" href="#id1" title="Link to this code"></a></div>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span><span class="nf">productionServerOpenAPI</span><span class="p">(</span>infile,outfile<span class="p">)</span>
+<span class="c">% PRODUCTIONSERVEROPENAPI example MATLAB function which can be compiled</span>
+<span class="c">% into a MATLAB Compiler Standalone application which can then be used to</span>
+<span class="c">% translate MATLAB Production Server discovery documents into OpenAPI</span>
+<span class="c">% specs.</span>
+<span class="c">%</span>
+<span class="c">% The code below can be updated to configure the generator according to</span>
+<span class="c">% your own needs (e.g. the OpenAPI version can be changed).</span>
+<span class="c">%</span>
+<span class="c">% To compile:</span>
+<span class="c">%</span>
+<span class="c">% &gt;&gt; compiler.build.standaloneApplication(&quot;productionServerOpenAPI&quot;)</span>
+<span class="c">%</span>
+<span class="c">% Then from a Windows or Linux command prompt:</span>
+<span class="c">%</span>
+<span class="c">% &gt; productionServerOpenAPI &quot;http://localhost:9910/api/discovery&quot; &quot;openapi.yaml&quot;</span>
+
+<span class="c">% Copyright 2023-2024 The MathWorks, Inc.</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nb">startsWith</span><span class="p">(</span><span class="n">infile</span><span class="p">,</span><span class="s">&quot;http&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="c">% If the input starts with http use &quot;webread&quot; to read the discovery</span>
+<span class="w">        </span><span class="c">% information</span>
+<span class="w">        </span><span class="n">discovery</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">webread</span><span class="p">(</span><span class="n">infile</span><span class="p">);</span>
+<span class="w">    </span><span class="k">else</span>
+<span class="w">        </span><span class="c">% If it does not start with http, assume a local file and read it</span>
+<span class="w">        </span><span class="n">discovery</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">jsondecode</span><span class="p">(</span><span class="nb">fileread</span><span class="p">(</span><span class="n">infile</span><span class="p">));</span>
+<span class="w">    </span><span class="k">end</span>
+<span class="w">    </span><span class="c">% Create the generator instance</span>
+<span class="w">    </span><span class="n">openapiGenerator</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">prodserver</span><span class="p">.</span><span class="n">openapi</span><span class="p">();</span>
+<span class="w">    </span><span class="c">% Optional: configure settings, for example enable the asynchronous</span>
+<span class="w">    </span><span class="c">% interface</span>
+<span class="w">    </span><span class="n">openapiGenerator</span><span class="p">.</span><span class="n">Async</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+<span class="w">    </span><span class="c">% Run the generator</span>
+<span class="w">    </span><span class="n">openApiSpec</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">openapiGenerator</span><span class="p">.</span><span class="n">generate</span><span class="p">(</span><span class="n">discovery</span><span class="p">);</span>
+<span class="w">    </span><span class="c">% Write the output to the specified output file</span>
+<span class="w">    </span><span class="n">f</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">fopen</span><span class="p">(</span><span class="n">outfile</span><span class="p">,</span><span class="s">&#39;w&#39;</span><span class="p">);</span>
+<span class="w">    </span><span class="nb">fwrite</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">openApiSpec</span><span class="p">);</span>
+<span class="w">    </span><span class="nb">fclose</span><span class="p">(</span><span class="n">f</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<p>And then compile this into a <a class="reference external" href="https://www.mathworks.com/help/compiler/standalone-applications.html">MATLAB Compiler standalone application</a>:</p>
+<div class="highlight-matlabsession notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt; </span><span class="n">compiler</span><span class="p">.</span><span class="n">build</span><span class="p">.</span><span class="n">standaloneApplication</span><span class="p">(</span><span class="s">&quot;productionServerOpenAPI.m&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This can then be used on any system with the correct <a class="reference external" href="https://www.mathworks.com/products/compiler/matlab-runtime.html">MATLAB Runtime</a> version installed. For example, on Linux:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>./productionServerOpenAPI<span class="w"> </span><span class="s2">&quot;http://localhost:9910/api/discovery&quot;</span><span class="w"> </span><span class="s2">&quot;myspec.yaml&quot;</span>
+</pre></div>
+</div>
+<p>or on Windows:</p>
+<div class="highlight-doscon notranslate"><div class="highlight"><pre><span></span><span class="gp">C:\Work&gt;</span>productionServerOpenAPI.exe <span class="s2">&quot;http://localhost:9910/api/discovery&quot;</span> <span class="s2">&quot;myspec.yaml&quot;</span>
+</pre></div>
+</div>
+<p>The wrapper can be further customized to configure the generator differently or for example, print the output rather than write it to file or allow end-user to specify addition/other inputs on the command line.</p>
+</section>
+<section id="in-ci-cd-pipelines">
+<h3>In CI/CD pipelines<a class="headerlink" href="#in-ci-cd-pipelines" title="Link to this heading"></a></h3>
+<p>To use the generator in CI/CD pipelines it is possible to first compile the generator into a standalone application as discussed in the <a class="reference internal" href="#as-matlab-compiler-standalone-application">previous</a> section and then call the standalone application from a CI/CD script.</p>
+<p>Alternatively, it is possible to simply run as MATLAB code inside MATLAB see the <a class="reference external" href="https://www.mathworks.com/help/matlab/continuous-integration.html">Continuous Integration (CI)
+</a> section in the MATLAB documentation to learn more about using MATLAB in CI/CD pipelines.</p>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="Installation.html" class="btn btn-neutral float-left" title="Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="DeployToMPS.html" class="btn btn-neutral float-right" title="Deploy as endpoint to MATLAB Production Server" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023 - 2024, MathWorks, Inc..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

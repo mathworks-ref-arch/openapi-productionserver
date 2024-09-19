@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Customization/Extending &mdash; OpenAPI Interface for MATLAB Production Server  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+      <link rel="stylesheet" type="text/css" href="_static/css/mathworks.css?v=45389b66" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="_static/copybutton.js?v=35a8b989"></script>
+        <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="OpenAPI representations of MATLAB Production Server Types and Methods" href="MPSOpenAPI.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            OpenAPI Interface for MATLAB Production Server
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="Installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="DeployToMPS.html">Deploy as endpoint to MATLAB Production Server</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">References</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="MPSOpenAPI.html">OpenAPI representations of MATLAB Production Server Types and Methods</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Customization/Extending</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#yamlwriter">YamlWriter</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">OpenAPI Interface for MATLAB Production Server</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Customization/Extending</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/Customization.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="customization-extending">
+<h1>Customization/Extending<a class="headerlink" href="#customization-extending" title="Link to this heading"></a></h1>
+<p>To customize the generator simply edit <code class="docutils literal notranslate"><span class="pre">Software/MATLAB/+prodserver/openapi.m</span></code> in place. While it is technically also possible to derive from the class and then overload or extend methods; the class was not designed with <em>such</em> extensibility in mind. The class is designed to be relatively simple and straightforward: it tries to basically fill out the OpenAPI document as a template. And the idea is that this “template” can be edited in place. Most of the MATLAB code is literally just writing out lines of OpenAPI YAML code while filling out the correct names and values. The remainder of the MATLAB code is mostly about iterating through all archives, functions and types.</p>
+<section id="yamlwriter">
+<h2>YamlWriter<a class="headerlink" href="#yamlwriter" title="Link to this heading"></a></h2>
+<p>In order to be able to edit the generator, it is important to understand the <code class="docutils literal notranslate"><span class="pre">YamlWriter</span></code> class it uses internally. Type the following in the MATLAB Command Window to learn more:</p>
+<div class="highlight-matlabsession notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt; </span><span class="nb">help</span><span class="w"> </span><span class="n">prodserver</span><span class="p">.</span><span class="n">internal</span><span class="p">.</span><span class="n">YamlWriter</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="MPSOpenAPI.html" class="btn btn-neutral float-left" title="OpenAPI representations of MATLAB Production Server Types and Methods" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023 - 2024, MathWorks, Inc..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

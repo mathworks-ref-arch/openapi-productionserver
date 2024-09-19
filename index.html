@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OpenAPI Interface for MATLAB Production Server &mdash; OpenAPI Interface for MATLAB Production Server  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+      <link rel="stylesheet" type="text/css" href="_static/css/mathworks.css?v=45389b66" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="_static/copybutton.js?v=35a8b989"></script>
+        <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Installation" href="Installation.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="#" class="icon icon-home">
+            OpenAPI Interface for MATLAB Production Server
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="Installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="DeployToMPS.html">Deploy as endpoint to MATLAB Production Server</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">References</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="MPSOpenAPI.html">OpenAPI representations of MATLAB Production Server Types and Methods</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Customization.html">Customization/Extending</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">OpenAPI Interface for MATLAB Production Server</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="#" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active"><em>OpenAPI Interface for</em> MATLAB Production Server</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/index.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="openapi-interface-for-matlab-production-server">
+<h1><em>OpenAPI Interface for</em> MATLAB Production Server<a class="headerlink" href="#openapi-interface-for-matlab-production-server" title="Link to this heading"></a></h1>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading"></a></h2>
+<p>This package offers a MATLAB® interface which can be used to translate the proprietary JSON format of <a class="reference external" href="https://www.mathworks.com/help/mps/restfuljson/restful-api-for-discovery-and-diagnostics.html#mw_d710d743-384a-434f-b4ab-2b5941e56ca8">MATLAB Production Server’s Discovery Service</a> into OpenAPI™ specifications. The functionality can be used inside MATLAB, deployed into a standalone application using MATLAB Compiler™ or even be deployed as an endpoint to MATLAB Production Server™ itself.</p>
+</section>
+<section id="requirements">
+<h2>Requirements<a class="headerlink" href="#requirements" title="Link to this heading"></a></h2>
+<section id="mathworks-products-https-www-mathworks-com">
+<h3>MathWorks Products (https://www.mathworks.com)<a class="headerlink" href="#mathworks-products-https-www-mathworks-com" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>MATLAB R2019b or newer</p></li>
+<li><p>A MATLAB Production Server Instance with <a class="reference external" href="https://www.mathworks.com/help/mps/restfuljson/restful-api-for-discovery-and-diagnostics.html#mw_d710d743-384a-434f-b4ab-2b5941e56ca8">Discovery Service</a> <a class="reference external" href="https://www.mathworks.com/help/mps/server/mps.configuration-properties.html#propname_enable-discovery">enabled</a></p></li>
+<li><p>(optional) MATLAB Compiler (for deploying as a standalone application)</p></li>
+<li><p>(optional) MATLAB Compiler SDK™ (for deploying to MATLAB Production Server)</p></li>
+</ul>
+</section>
+</section>
+<section id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Link to this heading"></a></h2>
+<p>Run <code class="docutils literal notranslate"><span class="pre">startup.m</span></code> in the <code class="docutils literal notranslate"><span class="pre">Software/MATLAB</span></code> directory to add the package directories to the MATLAB path.</p>
+<p>For further details see <a class="reference external" href="https://mathworks-ref-arch.github.io/openapi-productionserver/Installation.html">Installation</a> in the <a class="reference external" href="https://mathworks-ref-arch.github.io/openapi-productionserver">documentation</a>.</p>
+</section>
+<section id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Link to this heading"></a></h2>
+<p>The generator is implemented as a MATLAB class, first create an instance of this class:</p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">openapiGenerator</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">prodserver</span><span class="p">.</span><span class="n">openapi</span><span class="p">();</span>
+</pre></div>
+</div>
+<p>Then configure relevant settings on the object:</p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="c">% For example, specify the version of the API</span>
+<span class="n">openapiGenerator</span><span class="p">.</span><span class="n">Version</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;3.14.0&quot;</span><span class="p">;</span>
+<span class="c">% For example, specify that the asynchronous interface should be included in the spec</span>
+<span class="n">openapiGenerator</span><span class="p">.</span><span class="n">Async</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+</pre></div>
+</div>
+<p><em>For a full overview of all options and settings see <a class="reference external" href="https://mathworks-ref-arch.github.io/openapi-productionserver/Usage.html">Usage</a> in the <a class="reference external" href="https://mathworks-ref-arch.github.io/openapi-productionserver">documentation</a>.</em></p>
+<p>Finally, use the <code class="docutils literal notranslate"><span class="pre">generate</span></code> method on a MATLAB Production Server Discovery document imported as MATLAB structure:</p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="c">% For example, query the live discovery endpoint of a MATLAB Production Server Instance</span>
+<span class="n">discovery</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">webread</span><span class="p">(</span><span class="s">&quot;http://localhost:9910/api/discovery&quot;</span><span class="p">);</span>
+<span class="c">% Or alternatively, it is also possible to read a previously downloaded document</span>
+<span class="c">% discovery = jsondecode(fileread(&quot;discovery.json&quot;));</span>
+
+<span class="c">% Call the generate method on the structure</span>
+<span class="n">openApiSpec</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">openapiGenerator</span><span class="p">.</span><span class="n">generate</span><span class="p">(</span><span class="n">discovery</span><span class="p">);</span>
+
+<span class="c">% This returned a string representation of the OpenAPI spec in YAML format.</span>
+<span class="c">% For example, display it</span>
+<span class="nb">disp</span><span class="p">(</span><span class="n">openApiSpec</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>For further usage details see <a class="reference external" href="https://mathworks-ref-arch.github.io/openapi-productionserver/Usage.html">Usage</a> in the <a class="reference external" href="https://mathworks-ref-arch.github.io/openapi-productionserver">documentation</a>.</p>
+</section>
+<section id="limitations">
+<h2>Limitations<a class="headerlink" href="#limitations" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>The package <em>translates</em> the proprietary discovery JSON format to OpenAPI specs. Therefore it can only generate OpenAPI specs for functionality for which discovery information has in fact been included in the archive(s). Also, the accuracy of the generated OpenAPI specs will depend on the accuracy of the discovery information. Including (accurate) discovery information is the responsibility of the archive authors. The package does not verify whether included discovery information, and therefore generated OpenAPI spec, is correct in practice.</p></li>
+<li><p>Since the original discovery format does not allow describing <code class="docutils literal notranslate"><span class="pre">enumeration</span></code> and <code class="docutils literal notranslate"><span class="pre">datetime</span></code> formats in enough detail to be able to generate a meaningful OpenAPI description, both <code class="docutils literal notranslate"><span class="pre">enumeration</span></code> and <code class="docutils literal notranslate"><span class="pre">datetime</span></code> data types are <em>not</em> supported by the package.</p></li>
+<li><p>The package can generate specs in OpenAPI Specification version 3.0.3 and 3.1.0. Older specification versions like 2.0 are not supported. Older OpenAPI Specifications versions do not allow representing the MATLAB Production Server REST API accurately enough to be useful.</p></li>
+<li><p>The generated specs are for the <strong>large</strong> <a class="reference external" href="https://www.mathworks.com/help/mps/restfuljson/json-representation-of-matlab-data-types.html">JSON Representation of MATLAB Data Types</a> only. Small notation is not supported. The small notation simply can<em>not</em> accurately be represented in OpenAPI Specification version 3.0.3. It may be feasible to accurately represent the small notation in OpenAPI Specification version 3.1.0 but this is not supported in the package (yet).</p></li>
+</ul>
+</section>
+<section id="license">
+<h2>License<a class="headerlink" href="#license" title="Link to this heading"></a></h2>
+<p>The license for the <em>OpenAPI Interface for</em> MATLAB Production Server is available in the LICENSE.txt file in this repository.</p>
+</section>
+<section id="enhancement-requests">
+<h2>Enhancement Requests<a class="headerlink" href="#enhancement-requests" title="Link to this heading"></a></h2>
+<p>Provide suggestions for additional features or capabilities using the following link:
+https://www.mathworks.com/products/reference-architectures/request-new-reference-architectures.html</p>
+</section>
+<section id="support">
+<h2>Support<a class="headerlink" href="#support" title="Link to this heading"></a></h2>
+<p>Please create a GitHub issue.</p>
+<div class="toctree-wrapper compound">
+</div>
+<div class="toctree-wrapper compound">
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="Installation.html" class="btn btn-neutral float-right" title="Installation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023 - 2024, MathWorks, Inc..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
